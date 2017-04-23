@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!-- most of this page is CSS and JavaScript -->
+<!-- the HTML is kept to a minimum because I wanted to generate most of it in JS -->
+<html>
+<head>
+	<title>Swooshy Presentation</title>
+	<meta charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet">
+	<style type="text/css">
+	body {
+		margin: 0px; padding: 0px;
+		background-color: black;
+		font-family: 'Source Sans Pro', 'Verdana', sans-serif;
+	}
+	h1, h2, h3, h4 {
+		margin: 0;
+	}
+	#viewport {
+		overflow: hidden;
+	}
+	.slide {
+  /* Yes we'll use transsition - this is just for the initial frame */
+  /* prolly it should be moved to js, but it worked so I just went with it */
+		transform: perspective(50px) translateZ(-2500px);
+	}
+	.presentation {
+		position: relative;
+		padding-top: 5%;
+	}
+	.presentation * {
+		width: 76%;
+		margin-left: 24%;
+	}
+	.presentation h1 {
+		font-size: 7em;
+	}
+	.presentation ul {
+		font-size: 5em;
+		margin-left: 9%;
+	}
+
+	.nominationPage {
+		padding-top: 5%;
+	}
+	.nominationPage * {
+		width: 76%;
+		margin-left: 24%;
+	}
+	.nominationPage div {
+		font-size: 1.5em;
+		margin-left: 9%;
+		margin-top: 1em;
+	}
+	.nominationPage div h1 {
+		font-size: 4.5em;
+		margin-bottom: 0.5em;
+	}
+	.nominationPage div h2 {
+		font-size: 2.5em;
+	}
+	.nominationPage .pupil1 {
+		margin-left: 6%;
+	}
+	.nominationPage .pupil2 {
+		margin-left: 15%;	
+	}
+	.nominationPage .pupil3 {
+		margin-left: 24%;
+	}
+
+	.product {
+		text-align: center;
+		color: white;
+		color: white;
+		text-shadow:
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+	}
+	.fullscreen-bg {
+		position: fixed;
+		top: 0px;
+		right: 0px;
+		bottom: 0px;
+		left: 0px;
+		overflow: hidden;
+		z-index: -100;
+	}
+
+	.fullscreen-bg__video {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+	}
+	</style>
+</head>
+<body>
+	<!-- viewport -->
+	<div id="viewport">
+		<!-- <div class="state1">1</div> -->
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+var vp = document.getElementById("viewport");
+
+// initial viewport size (100%)
+vp.style.height = window.innerHeight + "px";
+vp.style.width = window.innerWidth + "px";
+
+// function declaration that makes a HTML element inside the viewport
+// and generates some CSS styling for it
+function createSlide() {
+	var elem = document.createElement("div");
+	elem.setAttribute("class", "slide");
+	elem.style.width = window.innerWidth + "px"; // "720px";
+	elem.style.height = window.innerHeight + "px"; // "540px";
+	elem.style.backgroundImage = "url('graphics/frontpage.png')";
+	elem.style.backgroundRepeat ="no-repeat";
+	elem.style.backgroundSize = "contain"; // "contain" or "cover"
+	elem.style.backgroundPosition = "center top";
+	elem.style.transition = "transform 0.5s ease-out"; // change this for init
+	vp.appendChild(elem);
+	return elem;
+}
+
+// make a new slide element, and store the object for future use
+var elem = createSlide(); 
+// initial - animate the first slide to z*0
+window.addEventListener('load', function () {
+	elem.style.transform = "perspective(50px) translateZ(0px)";
+});
+
+// calculate screen size based on input graphics - if needed
+function calcSize() {
+	var wWidth = window.innerWidth;
+	var wHeight = window.innerHeight;
+	var width = 720;
+	var height = 540;
+	var xAspect = (height/width);
+	var yAspect = (width/height);
+  // if screen wider than content, do one calculation, else a taller screen is assumed and another calculation used
+	if (wWidth > width) {
+		return {
+			x: Math.ceil(yAspect*wHeight),
+			y: window.innerHeight
+		};
+	} else {
+		return {
+			x: window.innerWidth,
+			y: Math.ceil(xAspect*wWidth)
+		};
+	}
+}
+
+// get right and left arrow keys
+var page = 0;
+document.onkeydown = function(e) {
+	var size = calcSize(); // call to make elements the right size
+	switch (e.keyCode) {
+		case 37: // ←
+			page--;
+			if (page < 0) {
+				page = slides.length-1;
+			}
+      // this stuff could probably be effectivized a bit more with its own function, but I already had the object and oh look a butterfly
+			elem.innerHTML = slides[page].html;
+			elem.style.backgroundImage = "url(" + slides[page].bg + ")";
+			elem.setAttribute("class", "slide");
+			elem.classList.add(slides[page].category);
+
+			if (page!=0){
+				elem.firstChild.style.width = size.x + "px";
+				elem.firstChild.style.height = size.y + "px";
+			}
+			elem.style.transform = "perspective(50px) translateZ(0px)"; // test
+		break;
+		case 39: // →
+			page++;
+			
+			if (page >= slides.length) {
+				page = 0;
+			}
+			console.log(page);
+			var timer;
+			var timer2;
+			
+			elem.style.transform = "perspective(50px) translateZ(100px)";
+			timer = setTimeout(function (e) {
+				elem.style.transition = undefined;
+				elem.style.backgroundImage = "url(" + slides[page].bg + ")";
+				elem.setAttribute("class", "slide");
+				elem.classList.add(slides[page].category);
+				elem.innerHTML = slides[page].html;
+				
+				if (page!=0){
+					elem.firstChild.style.width = size.x + "px";
+					elem.firstChild.style.margin = "0 auto";
+				}
+				elem.style.transform = "perspective(50px) translateZ(-2500px)";
+				timer2 = setTimeout(()=>{ // this is what I call a sergeant function.........
+					elem.style.transition = "transform 0.5s ease";
+					elem.style.transform = "perspective(50px) translateZ(0px)";	
+				}, 1);
+				
+			}, 600);
+		break;
+
+	}
+	
+};
+
+// not really necessary; just so I remember
+const categories = ["frontpage", "presentation", "nominationPage", "product"];
+
+// the actual slides, and their content in "JSON"-esque JS objects stored in an array
+// arrays are nice to call upp sequensially, 1, 2, 3, so that's why I used it :p
+// I opted to just store a bunch of html-snippets in the html-key, and call it one by one, as neede, instead of making all the code in the <body> for reasons...
+// OK so I like JavaScript data structures more than HTML, mkay, that's why!
+var slides = [
+	{
+		slide: 0,
+		bg: 'graphics/frontpage.png',
+		category: "frontpage",
+		html: "" // that's right, the frontpage is just a cool greetz image without text - but you can do with it what you want
+		
+	},
+	{
+		slide: 1,
+		bg: 'graphics/background.png',
+		category: "presentation",
+		html: "<div><h1>Årets kategorier</h1><ul><li>Foto</li><li>Video</li><li>Grafisk</li><li>Spesialpriser</li></ul></div>" // Shit, it's på norsk!
+	},
+	{
+		slide: 2,
+		bg: 'graphics/background.png',
+		category: "nominationPage",
+		html: "<div><h1>Vg1 foto</h1><h2>De nominerte:</h2><div class='pupil1'><h3>Produkt</h3><p>Elev En</p></div><div class='pupil2'><h3>Produkt</h3><p>Elev To</p></div><div class='pupil3'><h3>Produkt</h3><p>Elev Tre</p></div></div>"
+	},
+	{
+		slide: 3,
+		bg: 'media/some-test-image.jpg',
+		category: "product",
+		html: "<div id='produkt'><h2>Foto: Elev En</h2></div>"
+	},
+	{
+		slide: 4,
+		bg: '',
+		category: "product",
+		html: "<div><h2>Video: Elev To</h2><div class='fullscreen-bg'><video loop muted autoplay poster='img/videoframe.jpg' class='fullscreen-bg__video'><source src='media/mediatest.mp4' type='video/mp4'></video></div></div>" // just to test video - it worked nicely and in full screen w some neat CSS
+	}
+];
+
+// And that's that, or well, not really, but I'll probably never bother correcting bugs and problems like font size anyway
+// However if you want to do it, go ahead and steal my code! :D It's MIT licensed, so hopefully it's not too hard.
+</script>
+</html>
