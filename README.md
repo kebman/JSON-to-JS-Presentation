@@ -7,7 +7,7 @@ A small HTML5 app that takes JavaScript objects (JSON) and makes a swooshy full 
 In the `bin` folder you will find a file called `index.html`. If you look at the code, and know how to edit JSON/JavaScript objects, there should be enough in there to get you started for making a multimedia slide presentation, where the slides comes _swooshing_ towards you in 3D on the Z-axis. (OOoh, aaah, wow!) CSS transitions are really neat!
 
 ## Why
-I just had to do this because MS PowerPoint made the sound lag on videos in the presentation. Can't have that when my pupils want their local equivalent of the Oscar's!
+I had to do this because MS PowerPoint made the sound lag on videos in the presentation... Can't have that when my pupils want their local equivalent of the Oscar's!
 
 ## How
 I used mostly CSS3 transforms while manipulating HTML-element DOM objects with JavaScript to make it happen.
