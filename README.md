@@ -1,9 +1,9 @@
 # JSON-to-JS-Presentation
-A small HTML5 app that takes JSON\* and makes a swooshy full screen presentation with it using arrow keys
-
-\* It's really just an array of JS objects, but it looks JSON-y enough...
 
 ## What
+A small HTML5 app that takes JavaScript objects (JSON) and makes a swooshy full screen presentation with it using arrow keys.
+
+## Where
 In the `bin` folder you will find a file called `index.html`. If you look at the code, and know how to edit JSON/JavaScript objects, there should be enough in there to get you started for making a multimedia slide presentation, where the slides comes _swooshing_ towards you in 3D on the Z-axis. (OOoh, aaah, wow!) CSS transitions are really neat!
 
 ## Why
