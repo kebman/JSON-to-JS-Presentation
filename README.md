@@ -1,20 +1,20 @@
 # JSON-to-JS-Presentation
 
-## What
+### What
 A small HTML5 app that takes JavaScript objects (JSON) and makes a swooshy full screen presentation with it using arrow keys.
 
-## Where
+### Where
 In the `bin` folder you will find a file called `index.html`. If you look at the code, and know how to edit JSON/JavaScript objects, there should be enough in there to get you started for making a multimedia slide presentation, where the slides comes _swooshing_ towards you in 3D on the Z-axis. (OOoh, aaah, wow!) CSS transitions are really neat! Take a look. It's free!
 
-## Why
+### Why
 I had to do this because MS PowerPoint made the sound lag on videos in the presentation... Can't have that when my pupils want their local equivalent of the Oscar's! Luckily I know how to code, so I figured this would be far more interesting than troubleshooting. When all was said and done, the show went down without a hitch.
 
-## How
+### How
 I used mostly CSS3 transforms while manipulating HTML-element DOM objects with JavaScript to make it happen.
 
 In order to use it, grab `index.html` and put it into its own folder, then make a directory called `media` next to the HTML-file. That's where you should put your images, videos and sound, and stuff. Then edit the HTML-file to put more JSON-slides into the `slides` array.
 
-### Editing the HTML-file
+## Editing the HTML-file
 The `slides[]` array contains each slide as a JavaScript object. 
 
 The object has the following attributes:
